@@ -31,10 +31,10 @@ class MainAdapter(private val onItemClickListener: OnItemClickListener) : Recycl
 
     inner class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        private val title = itemView.findViewById<TextView>(R.id.title)
-        private val body = itemView.findViewById<TextView>(R.id.body)
-
         fun bind(note : Note) {
+
+            val title = itemView.findViewById<TextView>(R.id.title)
+            val body = itemView.findViewById<TextView>(R.id.body)
 
             val color = when(note.color) {
                 Color.WHITE -> R.color.color_white
