@@ -1,4 +1,4 @@
-package com.example.maxim.kotlinhw2.ui.main.note
+package com.example.maxim.kotlinhw2.ui.note
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel

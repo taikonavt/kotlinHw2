@@ -1,22 +1,18 @@
-package com.example.maxim.kotlinhw2.ui.main.note;
+package com.example.maxim.kotlinhw2.ui.note;
 
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
-import com.example.maxim.kotlinhw2.R
-import com.example.maxim.kotlinhw2.data.model.Color
+import com.example.maxim.kotlinhw2.common.format
+import com.example.maxim.kotlinhw2.common.getColorInt
 import com.example.maxim.kotlinhw2.data.model.Note
 import com.example.maxim.kotlinhw2.ui.base.BaseActivity
-import com.example.maxim.kotlinhw2.ui.base.BaseViewModel
 import kotlinx.android.synthetic.main.activity_note.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 private const val SAVE_DELAY = 2000L
@@ -91,22 +87,14 @@ class NoteActivity : BaseActivity<Note?, NoteViewState>() {
     }
 
     private fun initView() {
-        titleEt_activity_note.addTextChangedListener(textChangeListener)
-        bodyEt_activity_note.addTextChangedListener(textChangeListener)
-        if (note != null) {
-            titleEt_activity_note.setText(note?.title ?: "")
-            bodyEt_activity_note.setText(note?.note ?: "")
-            val color = when(note!!.color) {
-                Color.WHITE -> R.color.color_white
-                Color.VIOLET -> R.color.color_violet
-                Color.YELLOW -> R.color.color_yellow
-                Color.RED -> R.color.color_red
-                Color.PINK -> R.color.color_pink
-                Color.GREEN -> R.color.color_green
-                Color.BLUE -> R.color.color_blue
-            }
+        note?.run {
+            supportActionBar?.title = lastChanged.format(DATE_FORMAT)
+
+            titleEt_activity_note.setText(title)
+            bodyEt_activity_note.setText(note)
+
             toolbar_activity_note.setBackgroundColor(
-                    ContextCompat.getColor(this, color))
+                    color.getColorInt(this@NoteActivity))
         }
     }
 

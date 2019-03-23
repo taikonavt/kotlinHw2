@@ -41,6 +41,7 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.google.firebase:firebase-firestore:18.1.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
     implementation "com.android.support:multidex:1.0.3"
 
     testImplementation 'junit:junit:4.12'

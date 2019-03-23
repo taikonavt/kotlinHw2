@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.maxim.kotlinhw2.R
-import com.example.maxim.kotlinhw2.data.model.Color
 import com.example.maxim.kotlinhw2.data.model.Note
+import com.example.maxim.kotlinhw2.data.model.Note.Color
 
 class MainAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<MainAdapter.NoteViewHolder>() {
 
