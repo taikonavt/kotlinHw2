@@ -23,10 +23,8 @@ abstract class BaseActivity <T, S : BaseViewState<T>> : AppCompatActivity(){
         setContentView(layoutRes)
         viewModel.getViewState().observe(this, Observer <S>{viewState ->
             viewState?.apply {
-                data?.apply {
-                    data?.let { renderData(it) }
-                    error?.let { renderError(it) }
-                }
+                data?.let { renderData(it) }
+                error?.let { renderError(it) }
             }
         })
     }
