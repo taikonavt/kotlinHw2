@@ -53,7 +53,7 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
     override fun onCreateOptionsMenu(menu: Menu?): Boolean =
         MenuInflater(this).inflate(R.menu.menu_main, menu).let { true }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean =
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
             when(item.itemId){
                 R.id.logout -> showLogoutDialog().let{true}
                 else -> false

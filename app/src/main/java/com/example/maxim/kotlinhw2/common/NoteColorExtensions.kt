@@ -2,6 +2,7 @@ package com.example.maxim.kotlinhw2.common
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import com.example.maxim.kotlinhw2.R
 import com.example.maxim.kotlinhw2.data.model.Note
 
 fun Note.Color.getColorInt(context: Context) =

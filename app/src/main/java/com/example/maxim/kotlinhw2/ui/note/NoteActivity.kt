@@ -8,6 +8,7 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
+import com.example.maxim.kotlinhw2.R
 import com.example.maxim.kotlinhw2.common.format
 import com.example.maxim.kotlinhw2.common.getColorInt
 import com.example.maxim.kotlinhw2.data.model.Note

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import com.example.maxim.kotlinhw2.R
 
 class LogoutDialog : DialogFragment() {
 
@@ -18,7 +19,7 @@ class LogoutDialog : DialogFragment() {
                 .setMessage(R.string.logout_dialog_message)
                 .setPositiveButton(R.string.ok_btn_title) {
                     _, _ -> (activity as LogoutListener).onLogout()}
-                .setNegativeButton(R.string.logout_dealog_cancel){
+                .setNegativeButton(R.string.logout_dialog_cancel){
                     _, _ -> dismiss()}
                 .create()
     }

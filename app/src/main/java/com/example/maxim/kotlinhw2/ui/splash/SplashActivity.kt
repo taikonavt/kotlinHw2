@@ -2,6 +2,7 @@ package com.example.maxim.kotlinhw2.ui.splash
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Handler
+import com.example.maxim.kotlinhw2.R
 import com.example.maxim.kotlinhw2.ui.base.BaseActivity
 import com.example.maxim.kotlinhw2.ui.main.MainActivity
 
