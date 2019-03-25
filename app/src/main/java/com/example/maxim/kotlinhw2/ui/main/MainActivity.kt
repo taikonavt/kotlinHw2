@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import com.example.maxim.kotlinhw2.R
 import com.example.maxim.kotlinhw2.data.model.Note
 import com.example.maxim.kotlinhw2.ui.base.BaseActivity
@@ -29,6 +28,7 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
     override val layoutRes: Int = R.layout.activity_main
 
     private lateinit var adapter: MainAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(toolbar_activity_main)
@@ -41,7 +41,7 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
         mainRecycler.adapter = adapter
 
         fab_activity_main.setOnClickListener {
-            View.OnClickListener { openNoteScreen(null) }
+            openNoteScreen(null)
         }
     }
 
