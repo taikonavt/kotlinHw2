@@ -1,6 +1,5 @@
 package com.example.maxim.kotlinhw2.ui.main
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -15,15 +14,15 @@ import com.example.maxim.kotlinhw2.ui.splash.SplashActivity
 import com.firebase.ui.auth.AuthUI
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.alert
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.LogoutListener {
     companion object {
-
         fun getStartIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
-    override val viewModel: MainViewModel by lazy {
-        ViewModelProviders.of(this).get(MainViewModel::class.java)
-    }
+
+    override val model: MainViewModel by viewModel()
 
     override val layoutRes: Int = R.layout.activity_main
 
@@ -60,8 +59,12 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
             }
 
     private fun showLogoutDialog() {
-        supportFragmentManager.findFragmentByTag(LogoutDialog.TAG) ?:
-                LogoutDialog.createInstance().show(supportFragmentManager, LogoutDialog.TAG)
+        alert {
+            titleResource = R.string.logout_dialog_title
+            messageResource = R.string.logout_dialog_message
+            positiveButton(R.string.ok_btn_title){onLogout()}
+            negativeButton(R.string.cancel_btn_title) {dialog -> dialog.dismiss()}
+        }.show()
     }
 
     private fun openNoteScreen(note: Note?) {

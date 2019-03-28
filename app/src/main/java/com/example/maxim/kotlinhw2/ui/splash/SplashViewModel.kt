@@ -4,7 +4,7 @@ import com.example.maxim.kotlinhw2.data.Repository
 import com.example.maxim.kotlinhw2.data.errors.NoAuthException
 import com.example.maxim.kotlinhw2.ui.base.BaseViewModel
 
-class SplashViewModel (private val repository: Repository = Repository) :
+class SplashViewModel (private val repository: Repository) :
         BaseViewModel<Boolean?, SplashViewState>(){
 
     fun requestUser(){

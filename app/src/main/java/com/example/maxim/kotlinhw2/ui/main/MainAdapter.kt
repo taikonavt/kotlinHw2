@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.example.maxim.kotlinhw2.R
 import com.example.maxim.kotlinhw2.data.model.Note
 import com.example.maxim.kotlinhw2.data.model.Note.Color
+import kotlinx.android.extensions.LayoutContainer
 
 class MainAdapter(private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<MainAdapter.NoteViewHolder>() {
 
@@ -29,7 +30,8 @@ class MainAdapter(private val onItemClickListener: OnItemClickListener) : Recycl
         holder.bind(notes[position])
     }
 
-    inner class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class NoteViewHolder(override val containerView: View)
+        : RecyclerView.ViewHolder(containerView), LayoutContainer{
 
         fun bind(note : Note) {
 
