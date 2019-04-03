@@ -5,31 +5,26 @@ import com.example.maxim.kotlinhw2.data.Repository
 import com.example.maxim.kotlinhw2.data.model.Note
 import com.example.maxim.kotlinhw2.data.model.Result
 import com.example.maxim.kotlinhw2.ui.base.BaseViewModel
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.launch
 
-class MainViewModel(private val repository: Repository) : BaseViewModel<List<Note>?, MainViewState>() {
+class MainViewModel(private val repository: Repository) : BaseViewModel<List<Note>?>() {
 
-    private val notesObserver = object : Observer<Result>{
-        override fun onChanged(t: Result?) {
-            if (t == null) return
-            when(t) {
-                is com.example.maxim.kotlinhw2.data.model.Result.Success<*> -> {
-                    viewStateLiveData.value = MainViewState(notes = t.data as? List<Note>)
-                }
-                is com.example.maxim.kotlinhw2.data.model.Result.Error -> {
-                    viewStateLiveData.value = MainViewState(error = t.error)
+    private val notesChannel = repository.getNotes()
+
+    init {
+        launch {
+            notesChannel.consumeEach {
+                when(it){
+                    is Result.Success<*> -> setData(it.data as? List<Note>)
+                    is Result.Error -> setError(it.error)
                 }
             }
         }
     }
 
-    private val repositoryNotes = repository.getNotes()
-
-    init {
-        viewStateLiveData.value = MainViewState()
-        repositoryNotes.observeForever(notesObserver)
-    }
-
     override fun onCleared() {
-        repositoryNotes.removeObserver(notesObserver)
+        notesChannel.cancel()
+        super.onCleared()
     }
 }

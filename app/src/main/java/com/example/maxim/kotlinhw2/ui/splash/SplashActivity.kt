@@ -6,7 +6,7 @@ import com.example.maxim.kotlinhw2.ui.base.BaseActivity
 import com.example.maxim.kotlinhw2.ui.main.MainActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SplashActivity : BaseActivity<Boolean?, SplashViewState>() {
+class SplashActivity : BaseActivity<Boolean?>() {
 
     private val START_DELAY = 1000L
 

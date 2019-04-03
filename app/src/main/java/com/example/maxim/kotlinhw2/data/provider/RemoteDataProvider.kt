@@ -4,12 +4,13 @@ import android.arch.lifecycle.LiveData
 import com.example.maxim.kotlinhw2.data.model.Note
 import com.example.maxim.kotlinhw2.data.model.Result
 import com.example.maxim.kotlinhw2.data.model.User
+import kotlinx.coroutines.channels.ReceiveChannel
 
 interface RemoteDataProvider {
 
-    fun subscribeToAllNotes() : LiveData<Result>
-    fun getNoteById(id: String) : LiveData<Result>
-    fun saveNote(note: Note) : LiveData<Result>
-    fun getCurrentUser(): LiveData<User?>
-    fun deleteNote(noteId: String): LiveData<Result>
+    fun subscribeToAllNotes() : ReceiveChannel<Result>
+    suspend fun getNoteById(id: String) : Note
+    suspend fun saveNote(note: Note) : Note
+    suspend fun getCurrentUser(): User?
+    suspend fun deleteNote(noteId: String)
 }

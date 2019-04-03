@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.alert
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.LogoutListener {
+class MainActivity : BaseActivity<List<Note>?>(), LogoutDialog.LogoutListener {
     companion object {
         fun getStartIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
@@ -50,7 +50,7 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>(), LogoutDialog.Lo
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean =
-        MenuInflater(this).inflate(R.menu.menu_main, menu).let { true }
+            MenuInflater(this).inflate(R.menu.menu_main, menu).let { true }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
             when(item.itemId){

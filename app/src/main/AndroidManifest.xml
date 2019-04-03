@@ -4,7 +4,7 @@
     package="com.example.maxim.kotlinhw2">
 
     <application
-        android:name=".App"
+        android:name="com.example.maxim.kotlinhw2.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,16 +13,16 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="com.example.maxim.kotlinhw2.ui.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <activity android:name=".ui.note.NoteActivity"
+        <activity android:name="com.example.maxim.kotlinhw2.ui.note.NoteActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <activity android:name=".ui.splash.SplashActivity"
+        <activity android:name="com.example.maxim.kotlinhw2.ui.splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

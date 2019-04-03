@@ -4,40 +4,43 @@ import com.example.maxim.kotlinhw2.data.Repository
 import com.example.maxim.kotlinhw2.data.model.Note
 import com.example.maxim.kotlinhw2.data.model.Result
 import com.example.maxim.kotlinhw2.ui.base.BaseViewModel
+import kotlinx.coroutines.launch
 
-class NoteViewModel (private val repository: Repository): BaseViewModel<NoteViewState.Data, NoteViewState>(){
+class NoteViewModel (private val repository: Repository): BaseViewModel<NoteData>(){
 
     private val currentNote: Note?
-        get() = viewStateLiveData.value?.data?.note
+        get() = getViewState().poll()?.note
 
     fun saveChanges(note: Note){
-        viewStateLiveData.value = NoteViewState(NoteViewState.Data(note = note))
+        setData(NoteData(note = note))
     }
 
-    override fun onCleared(){
-        currentNote?.let { repository.saveNote(it) }
+    override fun onCleared() {
+        launch {
+            currentNote?.let { repository.saveNote(it) }
+            super.onCleared()
+        }
     }
 
     fun loadNote(noteId: String){
-        repository.getNoteById(noteId).observeForever{t ->
-            t?.let {
-                viewStateLiveData.value = when (t) {
-                    is Result.Success<*> -> NoteViewState(NoteViewState.Data(note = t.data as? Note))
-                    is Result.Error -> NoteViewState(error = t.error)
+        launch {
+            try {
+                repository.getNoteById(noteId).let {
+                    setData(NoteData(note = it))
                 }
+            } catch (e: Throwable){
+                setError(e)
             }
         }
     }
 
-    fun deleteNote(){
-        currentNote?.let{
-            repository.deleteNote(it.id).observeForever{ t ->
-                t?.let{
-                    viewStateLiveData.value = when (it) {
-                        is Result.Success<*> -> NoteViewState(NoteViewState.Data(isDeleted = true))
-                        is Result.Error -> NoteViewState(error = it.error)
-                    }
-                }
+    fun deleteNote() {
+        launch {
+            try {
+                currentNote?.let { repository.deleteNote(it.id) }
+                setData(NoteData(isDeleted = true))
+            } catch (e: Throwable){
+                setError(e)
             }
         }
     }

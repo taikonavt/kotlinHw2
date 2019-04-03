@@ -27,7 +27,7 @@ local.properties
 .idea/vcs.xml
 *.iml
 
-app.google-services.json
+/app/google-services.json
 
 # OS-specific files
 .DS_Store

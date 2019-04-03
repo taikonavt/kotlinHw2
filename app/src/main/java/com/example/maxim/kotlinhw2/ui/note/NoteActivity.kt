@@ -1,4 +1,4 @@
-package com.example.maxim.kotlinhw2.ui.note;
+package com.example.maxim.kotlinhw2.ui.note
 
 import android.content.Context
 import android.os.Bundle
@@ -13,6 +13,8 @@ import com.example.maxim.kotlinhw2.common.getColorInt
 import com.example.maxim.kotlinhw2.data.model.Note
 import com.example.maxim.kotlinhw2.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_note.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.startActivity
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -20,7 +22,7 @@ import java.util.*
 
 private const val SAVE_DELAY = 2000L
 
-class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
+class NoteActivity : BaseActivity<NoteData>() {
 
     companion object {
         private val EXTRA_NOTE = NoteActivity::class.java.name + "extra.NOTE"
@@ -60,11 +62,11 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
         bodyEt_activity_note.addTextChangedListener(textChangeListener)
     }
 
-    override fun renderData(data: NoteViewState.Data) {
-        if (data.isDeleted) finish()
+    override fun renderData(noteData: NoteData) {
+        if (noteData.isDeleted) finish()
 
-        this.note = data.note
-        data.note?.let{color = it.color}
+        this.note = noteData.note
+        noteData.note?.let{color = it.color}
         initView()
     }
 
@@ -81,18 +83,20 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
         }
     }
 
-    private fun triggerSaveNote() {
-        if (titleEt_activity_note.text!!.length < 3) return
+    private fun triggerSaveNote(){
+        if (titleEt_activity_note.text?.length ?: 0 < 3 && bodyEt_activity_note.text.length < 3) return
 
-        Handler().postDelayed({
+        launch {
+            delay(SAVE_DELAY)
+
             note = note?.copy(title = titleEt_activity_note.text.toString(),
                     note = bodyEt_activity_note.text.toString(),
                     lastChanged = Date(),
                     color = color)
                     ?: createNewNote()
 
-            if (note != null) model.saveChanges(note!!)
-        }, SAVE_DELAY)
+            note?.let { model.saveChanges(it) }
+        }
     }
 
     private fun initView() {

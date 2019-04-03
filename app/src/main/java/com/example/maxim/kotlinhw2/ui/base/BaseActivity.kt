@@ -10,23 +10,51 @@ import com.example.maxim.kotlinhw2.R
 import com.example.maxim.kotlinhw2.data.errors.NoAuthException
 import com.firebase.ui.auth.AuthUI
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.consumeEach
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseActivity <T, S : BaseViewState<T>> : AppCompatActivity(){
+abstract class BaseActivity <T> : AppCompatActivity(), CoroutineScope{
 
     private val RC_SIGN_IN = 458
 
-    abstract val model : BaseViewModel<T, S>
+    private lateinit var dataJob: Job
+    private lateinit var errorJob: Job
+    abstract val model: BaseViewModel<T>
     abstract val layoutRes: Int
+
+    override val coroutineContext: CoroutineContext by lazy {
+        Dispatchers.Main + Job()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layoutRes)
-        model.getViewState().observe(this, Observer <S>{ viewState ->
-            viewState?.apply {
-                data?.let { renderData(it) }
-                error?.let { renderError(it) }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dataJob = launch {
+            model.getViewState().consumeEach {
+                renderData(it)
             }
-        })
+        }
+        errorJob = launch {
+            model.getErrorChannel().consumeEach {
+                renderError(it)
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dataJob.cancel()
+        errorJob.cancel()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineContext.cancel()
     }
 
     abstract fun renderData(data: T)
